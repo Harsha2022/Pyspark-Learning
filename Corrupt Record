@@ -18,3 +18,6 @@ df = spark.read.format('csv') \
   .load(file_location).cache()
 display(df)
 
+
+from pyspark.sql.functions import col
+df.filter(col("corrupt_recordvalue").isNotNull()).show()
