@@ -1,0 +1,20 @@
+from pyspark.sql.types import StructType, StructField, IntegerType, StringType
+
+# File location
+file_location = "/FileStore/tables/samplefile.csv"
+
+schema = StructType([
+    StructField("col1", StringType(), True),
+    StructField("Col2", IntegerType(), True),
+    StructField("corrupt_recordvalue", StringType(), True)
+])
+
+df = spark.read.format('csv') \
+  .schema(schema)\
+  .option("header", True) \
+  .option("sep", ',') \
+  .option("mode", "PERMISSIVE") \
+  .option("columnNameOfCorruptRecord", "corrupt_recordvalue")\
+  .load(file_location).cache()
+display(df)
+
